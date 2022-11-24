@@ -1,0 +1,35 @@
+﻿<Window x:Class="Revit.StyletDemo.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Revit.StyletDemo"
+        xmlns:s="https://github.com/canton7/Stylet"
+        xmlns:vm="clr-namespace:Revit.StyletDemo.ViewModel"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        d:DataContext="{d:DesignInstance vm:MainViewModel}"
+        FontSize="14"
+        Title="Stylet使用Demo" Height="450" Width="800">
+    <DockPanel>
+        <TreeView DockPanel.Dock="Left" Width="250" Margin="0,0,10,0"
+                  ItemsSource="{Binding TreeNodeCollection}"
+                  VirtualizingPanel.IsVirtualizing="True" 
+                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  VirtualizingPanel.IsVirtualizingWhenGrouping="False"
+                  VirtualizingPanel.ScrollUnit="Item"
+                  ScrollViewer.CanContentScroll="True"
+                  SelectedItemChanged="{s:Action TreeView_SelectedItemChanged}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Text}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="当前选中节点："/>
+            <TextBlock Text="{Binding SelectedNode.Text}" TextWrapping="Wrap" FontWeight="Black" Margin="6,0"/>
+            <Button Content="添加子节点" Click="{s:Action AddChild}" />
+        </StackPanel>
+    </DockPanel>
+</Window>
